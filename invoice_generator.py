@@ -32,7 +32,11 @@ formatted_month_number = str(formatted_month_number)
 formatted_month_number_max = str(formatted_month_number_max)
 
 date_min = f"{year}-{formatted_month_number}-01"
-date_max = f"{year}-{formatted_month_number_max}-01"
+
+if month_name == 'december':
+    date_max = f"{year}-12-31"
+else:
+    date_max = f"{year}-{formatted_month_number_max}-01"
 
 ### Data Cleaning ###
 # drop spaces from account lists
