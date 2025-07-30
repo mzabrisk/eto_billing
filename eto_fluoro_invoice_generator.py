@@ -203,10 +203,15 @@ charges_df = charges_df[charges_df['ETO Uses'] != 0]
 fluoro_charges_df = fluoro_charges_df[fluoro_charges_df['Fluoroscopy Uses'] != 0]
 
 # dropping unnecessary columns pre-merge
-fluoro_charges_df = fluoro_charges_df.drop(columns=['PI'])
+# fluoro_charges_df = fluoro_charges_df.drop(columns=['PI'])
 
 
 charges_df = charges_df.merge(fluoro_charges_df, on='Account', how='outer')
+
+charges_df['PI_x'] = charges_df['PI_x'].combine_first(charges_df['PI_y'])
+
+charges_df = charges_df.drop(columns=['PI_y'])
+charges_df.rename(columns={'PI_x': 'PI'}, inplace=True)
 
 # adding fluoro and eto charges
 charges_df['Total ($)'] = charges_df['Total ($)_x'].fillna(0) + charges_df['Total ($)_y'].fillna(0)
